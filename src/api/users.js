@@ -86,25 +86,36 @@ router.route('/')
  *         schema:
  *           type: integer
  *         description: ID of the user to update.
- *       - in: body
- *         name: user
- *         required: true
- *         description: User object containing updated information.
+ *       - in: query
+ *         name: name
  *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *             username:
- *               type: string
- *             password:
- *               type: string
- *             email:
- *               type: string
- *             role:
- *               type: string
- *             avata:
- *               type: string
+ *           type: string
+ *         description: The name of the user.
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
+ *         description: The username of the user.
+ *       - in: query
+ *         name: password
+ *         schema:
+ *           type: string
+ *         description: The password of the user.
+ *       - in: query
+ *         name: email
+ *         schema:
+ *           type: string
+ *         description: The email of the user.
+ *       - in: query
+ *         name: role
+ *         schema:
+ *           type: string
+ *         description: The role of the user.
+ *       - in: query
+ *         name: avata
+ *         schema:
+ *           type: string
+ *         description: The avatar of the user.
  *     responses:
  *       200:
  *         description: Successful response with updated user data.
