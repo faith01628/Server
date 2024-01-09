@@ -46,6 +46,8 @@ const getUserById = async (req, res) => {
         // Thực hiện câu truy vấn bằng hàm executeQuery (đã được định nghĩa trước đó)
         const userData = await executeQuery(query);
 
+        console.log(userData)
+
         if (userData.length > 0) {
             res.status(200).json(userData[0]);
         } else {
@@ -67,13 +69,17 @@ const deleteUser = async (req, res) => {
         `;
 
         // Thực hiện câu truy vấn bằng hàm executeQuery (đã được định nghĩa trước đó)
-        const result = await executeQuery(query);
+        const deleteuser = await executeQuery(query);
 
-        if (result > 0) {
+        console.log(deleteuser)
+
+        if (deleteuser !== undefined && deleteuser !== null && deleteuser.affectedRows > 0) {
             res.status(204).json({ message: 'User deleted successfully' });
         } else {
             res.status(404).json({ error: 'User not found' });
         }
+
+
     } catch (error) {
         console.error('Error deleting user:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -100,12 +106,13 @@ const updateUser = async (req, res) => {
                 email = '${email}', role = '${role}', avata = '${avata}'
             WHERE id = ${userId}
         `;
-        console.log(updateQuery)
 
         // Thực hiện truy vấn cập nhật
-        const rowsAffected = await executeQuery(updateQuery);
+        const updateuser = await executeQuery(updateQuery);
 
-        if (rowsAffected > 0) {
+        console.log(updateuser)
+
+        if (updateuser !== undefined && updateuser !== null && updateuser.affectedRows > 0) {
             res.status(200).json({ message: 'User updated successfully', updatedUserId: userId });
         } else {
             res.status(500).json({ error: 'Update was not successful', updatedUserId: userId });
