@@ -2,8 +2,8 @@ const { executeQuery } = require('../database');
 
 const getUserData = async (req, res) => {
     try {
-        const query = 'SELECT * FROM "user"';
-        const userData = await executeQuery(query);
+        const getQuery = 'SELECT * FROM "user"';
+        const userData = await executeQuery(getQuery);
 
         res.status(200).json(userData);
     } catch (error) {
@@ -16,12 +16,12 @@ const createUser = async (req, res) => {
     try {
         const { name, username, password, email, role, avata } = req.query;
 
-        const query = `
+        const creatQuery = `
             INSERT INTO "user" (name, username, password, email, role, avata)
             VALUES ('${name}', '${username}', '${password}', '${email}', '${role}', '${avata}')
         `;
 
-        await executeQuery(query);
+        await executeQuery(creatQuery);
 
         res.status(201).json({ message: 'User created successfully', name: name, username: username, password: password, email: email, role: role, avata: avata });
     } catch (error) {
@@ -40,8 +40,6 @@ const getUserById = async (req, res) => {
 
         const userData = await executeQuery(query);
 
-        console.log("get user by id ", userData.length)
-
         if (userData.length > 0) {
             res.status(200).json(userData[0]);
         } else {
@@ -57,16 +55,14 @@ const deleteUser = async (req, res) => {
     try {
         const userId = req.params.id;
 
-        const query = `
+        const deleteQuery = `
             DELETE FROM "user" WHERE id = ${userId}
         `;
 
-        const deleteuser = await executeQuery(query);
+        const deleteuser = await executeQuery(deleteQuery, true);
 
-        console.log("delete User ", deleteuser.length)
-
-        if (deleteuser !== undefined && deleteuser !== null && deleteuser.affectedRows > 0) {
-            res.status(204).json({ message: 'User deleted successfully' });
+        if (deleteuser && deleteuser.rowsAffected > 0) {
+            res.status(200).json({ message: 'Delete user successfully', deleteUserId: userId });
         } else {
             res.status(404).json({ error: 'User not found' });
         }
@@ -97,21 +93,19 @@ const updateUser = async (req, res) => {
             WHERE id = ${userId}
         `;
 
-        const updateuser = await executeQuery(updateQuery);
+        const updateResult = await executeQuery(updateQuery, true);
 
-        console.log(updateuser)
-
-        if (updateuser !== undefined && updateuser !== null && updateuser.affectedRows > 0) {
-            res.status(200).json({ message: 'User updated successfully', updatedUserId: userId });
+        if (updateResult && updateResult.rowsAffected > 0) {
+            res.status(200).json({ message: 'User updated successfully', updatedUserId: userId, name: name, username: username, password: password, email: email, role: role, avata: avata });
         } else {
             res.status(500).json({ error: 'Update was not successful', updatedUserId: userId });
         }
+
     } catch (error) {
         console.error('Error updating user:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 
 module.exports = {
     getUserData, createUser, getUserById, deleteUser, updateUser,
