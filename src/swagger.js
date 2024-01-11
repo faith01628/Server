@@ -7,7 +7,7 @@ const glob = require('glob');
 const options = {
     swaggerDefinition,
     apis: [
-        'src/api/users.js',
+        'src/api/*.js',
     ],
 }
 

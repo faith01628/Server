@@ -4,12 +4,18 @@ const userController = require('../controller/UserController');
 
 /**
  * @swagger
+ * tags:
+ *   - name: Test User
  * /api/users:
  *   get:
+ *     tags:
+ *       - Test User
  *     responses:
  *       200:
  *         description: Successful response with user data.
  *   post:
+ *     tags:
+ *       - Test User
  *     parameters:
  *       - in: query
  *         name: name
@@ -51,8 +57,12 @@ router.route('/')
 
 /**
  * @swagger
+ * tags:
+ *   - name: Test User
  * /api/users/{id}:
  *   get:
+ *     tags:
+ *       - Test User
  *     parameters:
  *       - in: path
  *         name: id
@@ -66,6 +76,8 @@ router.route('/')
  *       404:
  *         description: User not found.
  *   delete:
+ *     tags:
+ *       - Test User
  *     parameters:
  *       - in: path
  *         name: id
@@ -79,6 +91,8 @@ router.route('/')
  *       404:
  *         description: User not found.
  *   put:
+ *     tags:
+ *       - Test User
  *     parameters:
  *       - in: path
  *         name: id
@@ -123,9 +137,7 @@ router.route('/')
  *         description: User not found.
  *       500:
  *         description: Internal Server Error.
-
  */
-
 router.route('/:id')
     .get(userController.getUserById)
     .delete(userController.deleteUser)
