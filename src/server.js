@@ -4,10 +4,12 @@ const port = 3000;
 const swagger = require('./swagger');
 const { connectDB } = require('./database');
 const userAPI = require('./api/users');
+// const loginAPI = require('./api/login');
 
 connectDB();
 
 app.use('/api/users', userAPI);
+// app.use('/api/login', loginAPI);
 
 app.use('/', swagger);
 

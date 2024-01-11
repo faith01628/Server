@@ -20,15 +20,10 @@ const connectDB = async () => {
     }
 };
 
-const executeQuery = async (query, isUpdateOrDelete = false) => {
+const executeQuery = async (query) => {
     try {
         const pool = await sql.connect(config);
         const result = await pool.request().query(query);
-
-        if (isUpdateOrDelete) {
-            return { rowsAffected: result.rowsAffected[0] };
-        }
-
         return result.recordset;
     } catch (err) {
         console.error('Error executing query:', err);
