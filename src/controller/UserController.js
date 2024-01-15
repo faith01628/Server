@@ -1,4 +1,5 @@
 const { executeQuery } = require('../database');
+const bcrypt = require('bcrypt');
 
 const getUserData = async (req, res) => {
     try {
@@ -16,14 +17,19 @@ const createUser = async (req, res) => {
     try {
         const { name, username, password, email, role, avata } = req.query;
 
+        // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         const query = `
             INSERT INTO "user" (name, username, password, email, role, avata)
-            VALUES ('${name}', '${username}', '${password}', '${email}', '${role}', '${avata}')
+            VALUES ('${name}', '${username}', '${hashedPassword}', '${email}', '${role}', '${avata}')
         `;
 
         await executeQuery(query);
 
-        res.status(201).json({ message: 'User created successfully', name: name, username: username, password: password, email: email, role: role, avata: avata });
+        res.status(201).json({
+            message: 'User created successfully',
+        });
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -40,8 +46,6 @@ const getUserById = async (req, res) => {
 
         const userData = await executeQuery(query);
 
-        console.log("get user by id ", userData.length)
-
         if (userData.length > 0) {
             res.status(200).json(userData[0]);
         } else {
@@ -57,16 +61,14 @@ const deleteUser = async (req, res) => {
     try {
         const userId = req.params.id;
 
-        const query = `
+        const deleteQuery = `
             DELETE FROM "user" WHERE id = ${userId}
         `;
 
-        const deleteuser = await executeQuery(query);
+        const deleteuser = await executeQuery(deleteQuery, true);
 
-        console.log("delete User ", deleteuser.length)
-
-        if (deleteuser !== undefined && deleteuser !== null && deleteuser.affectedRows > 0) {
-            res.status(204).json({ message: 'User deleted successfully' });
+        if (deleteuser && deleteuser.rowsAffected > 0) {
+            res.status(200).json({ message: 'Delete user successfully', deleteUserId: userId });
         } else {
             res.status(404).json({ error: 'User not found' });
         }
@@ -85,6 +87,7 @@ const updateUser = async (req, res) => {
 
         const checkUserQuery = `SELECT * FROM "user" WHERE id = ${userId}`;
         const existingUser = await executeQuery(checkUserQuery);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         if (!existingUser || existingUser.length === 0) {
             return res.status(404).json({ error: 'User not found' });
@@ -92,26 +95,24 @@ const updateUser = async (req, res) => {
 
         const updateQuery = `
             UPDATE "user"
-            SET name = '${name}', username = '${username}', password = '${password}', 
+            SET name = '${name}', username = '${username}', password = '${hashedPassword}', 
                 email = '${email}', role = '${role}', avata = '${avata}'
             WHERE id = ${userId}
         `;
 
-        const updateuser = await executeQuery(updateQuery);
+        const updateResult = await executeQuery(updateQuery, true);
 
-        console.log(updateuser)
-
-        if (updateuser !== undefined && updateuser !== null && updateuser.affectedRows > 0) {
-            res.status(200).json({ message: 'User updated successfully', updatedUserId: userId });
+        if (updateResult && updateResult.rowsAffected > 0) {
+            res.status(200).json({ message: 'User updated successfully', updatedUserId: userId, name: name, username: username, password: password, email: email, role: role, avata: avata });
         } else {
             res.status(500).json({ error: 'Update was not successful', updatedUserId: userId });
         }
+
     } catch (error) {
         console.error('Error updating user:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 
 module.exports = {
     getUserData, createUser, getUserById, deleteUser, updateUser,

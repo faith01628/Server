@@ -1,19 +1,28 @@
 const { executeQuery } = require('../database');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const loginUser = async (req, res) => {
     try {
         const { username, password } = req.query;
+
         const query = `
           SELECT * FROM "user"
-          WHERE username = '${username}' AND password = '${password}' AND role = 'user'
+          WHERE username = '${username}' AND role = 'user'
         `;
         const userData = await executeQuery(query);
 
         if (userData.length > 0) {
-            const token = jwt.sign(userData[0], 'cT1uHnexsEoPjd2xSbS2lO2MntjFYfyN');
+            const user = userData[0];
 
-            res.status(200).json({ message: 'Login successful', user: userData[0], token });
+            const passwordMatch = await bcrypt.compare(password, user.password);
+
+            if (passwordMatch) {
+                const token = jwt.sign(user, 'cT1uHnexsEoPjd2xSbS2lO2MntjFYfyN');
+                res.status(200).json({ message: 'Login successful', user, token });
+            } else {
+                res.status(401).json({ error: 'Invalid credentials' });
+            }
         } else {
             res.status(401).json({ error: 'Invalid credentials' });
         }
@@ -27,16 +36,24 @@ const loginUser = async (req, res) => {
 const loginAdmin = async (req, res) => {
     try {
         const { username, password } = req.query;
+
         const query = `
           SELECT * FROM "user"
-          WHERE username = '${username}' AND password = '${password}' AND role = 'admin'
+          WHERE username = '${username}' AND role = 'admin'
         `;
         const userData = await executeQuery(query);
 
         if (userData.length > 0) {
-            const token = jwt.sign(userData[0], 'cT1uHnexsEoPjd2xSbS2lO2MntjFYfyN');
+            const user = userData[0];
 
-            res.status(200).json({ message: 'Login successful', user: userData[0], token });
+            const passwordMatch = await bcrypt.compare(password, user.password);
+
+            if (passwordMatch) {
+                const token = jwt.sign(user, 'cT1uHnexsEoPjd2xSbS2lO2MntjFYfyN');
+                res.status(200).json({ message: 'Login successful', user, token });
+            } else {
+                res.status(401).json({ error: 'Invalid credentials' });
+            }
         } else {
             res.status(401).json({ error: 'Invalid credentials' });
         }
