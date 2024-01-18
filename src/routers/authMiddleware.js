@@ -2,8 +2,16 @@ const jwt = require('jsonwebtoken');
 
 const authenticateToken = (req, res, next) => {
     let token = req.header('Authorization');
-    token = token.slice(6).trim();
-    if (!token) return res.status(401).json({ error: 'Access denied' });
+
+    if (!token) {
+        return res.status(401).json({ error: 'Access denied - Missing token' });
+    }
+
+    if (!token.startsWith('Bearer ')) {
+        return res.status(401).json({ error: 'Invalid token format' });
+    }
+
+    token = token.slice(7).trim();
 
     jwt.verify(token, 'cT1uHnexsEoPjd2xSbS2lO2MntjFYfyN', (err, user) => {
         if (err) {
@@ -17,7 +25,6 @@ const authenticateToken = (req, res, next) => {
 
 const authenticateAdminToken = (req, res, next) => {
     authenticateToken(req, res, () => {
-        // console.log('Role:', req.user?.role); // Sử dụng nullish check
         if (req.user?.role === 'admin') {
             next();
         } else {
@@ -26,11 +33,8 @@ const authenticateAdminToken = (req, res, next) => {
     });
 };
 
-
-
 const authenticateUserToken = (req, res, next) => {
     authenticateToken(req, res, () => {
-        // console.log('Role:', req.user?.role); // Sử dụng nullish check
         if (req.user?.role === 'user') {
             next();
         } else {
@@ -38,6 +42,5 @@ const authenticateUserToken = (req, res, next) => {
         }
     });
 };
-
 
 module.exports = { authenticateToken, authenticateAdminToken, authenticateUserToken };

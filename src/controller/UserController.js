@@ -103,7 +103,7 @@ const updateUser = async (req, res) => {
         const updateResult = await executeQuery(updateQuery, true);
 
         if (updateResult && updateResult.rowsAffected > 0) {
-            res.status(200).json({ message: 'User updated successfully', updatedUserId: userId, name: name, username: username, password: password, email: email, role: role, avata: avata });
+            res.status(200).json({ message: 'User updated successfully', updatedUserId: userId, name: name, username: username, password: hashedPassword, email: email, role: role, avata: avata });
         } else {
             res.status(500).json({ error: 'Update was not successful', updatedUserId: userId });
         }
