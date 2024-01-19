@@ -33,6 +33,16 @@ const authenticateAdminToken = (req, res, next) => {
     });
 };
 
+const authenticateBothTokens = (req, res, next) => {
+    authenticateToken(req, res, () => {
+        if (req.user?.role === 'admin' || req.user?.role === 'user') {
+            next();
+        } else {
+            return res.status(403).json({ error: 'Unauthorized' });
+        }
+    });
+};
+
 const authenticateUserToken = (req, res, next) => {
     authenticateToken(req, res, () => {
         if (req.user?.role === 'user') {
@@ -43,4 +53,4 @@ const authenticateUserToken = (req, res, next) => {
     });
 };
 
-module.exports = { authenticateToken, authenticateAdminToken, authenticateUserToken };
+module.exports = { authenticateToken, authenticateAdminToken, authenticateUserToken, authenticateBothTokens };

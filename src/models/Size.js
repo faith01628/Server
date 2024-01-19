@@ -1,16 +1,16 @@
 const { DataTypes } = require('sequelize');
 const { sql } = require('../database');
 
-const Role = sql.define('role', {
+const Size = sql.define('size', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    role: {
+    sizeName: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
     }
 })
-module.exports = Role
+module.exports = Size

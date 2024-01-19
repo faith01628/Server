@@ -5,6 +5,7 @@ const swagger = require('./swagger');
 const { connectDB } = require('./database');
 const userAPI = require('./api/users');
 const roleAPI = require('./api/role');
+const sizeAPI = require('./api/size');
 const { authenticateAdminToken, authenticateUserToken } = require('./routers/authMiddleware');
 const { testGetAdmin, testGetUser } = require('./controller/testController');
 const { loginUser, loginAdmin } = require('./controller/LoginUserController');
@@ -13,6 +14,7 @@ connectDB();
 
 app.use('/api/users', userAPI);
 app.use('/api/role', roleAPI);
+app.use('/api/size', sizeAPI);
 app.use('/api/loginUser', loginUser);
 app.use('/api/loginAdmin', loginAdmin);
 app.use('/api/testloginUser', authenticateUserToken, testGetAdmin);

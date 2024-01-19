@@ -3,9 +3,9 @@ const { executeQuery } = require('../database');
 const getRole = async (req, res) => {
     try {
         const query = 'SELECT * FROM "role"';
-        const userData = await executeQuery(query);
+        const roleData = await executeQuery(query);
 
-        res.status(200).json(userData);
+        res.status(200).json(roleData);
     } catch (error) {
         console.error('Error getting role data:', error);
         res.status(500).json({ error: 'Internal Server Error' });
