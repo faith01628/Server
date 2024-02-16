@@ -24,7 +24,7 @@ const createSize = async (req, res) => {
         await executeQuery(query);
 
         res.status(201).json({
-            message: 'User created successfully',
+            message: 'Size created successfully',
         });
     } catch (error) {
         console.error('Error creating size:', error);

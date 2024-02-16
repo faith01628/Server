@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const sizeController = require('../controller/SizeController');
-const { authenticateUserToken, authenticateAdminToken, authenticateBothTokens } = require('../routers/authMiddleware');
+const { authenticateBothTokens } = require('../routers/authMiddleware');
 
 /**
  * @swagger
@@ -29,7 +29,7 @@ const { authenticateUserToken, authenticateAdminToken, authenticateBothTokens } 
  */
 router.route('/')
     .get(authenticateBothTokens, sizeController.getSize)
-    .post(authenticateAdminToken, authenticateUserToken, sizeController.createSize)
+    .post(authenticateBothTokens, sizeController.createSize)
 
 /**
  * @swagger
@@ -75,7 +75,7 @@ router.route('/')
  *         description: Internal Server Error.
  */
 router.route('/:id')
-    .delete(authenticateAdminToken, authenticateUserToken, sizeController.deleteSize)
-    .put(authenticateAdminToken, authenticateUserToken, sizeController.updateSize)
+    .delete(authenticateBothTokens, sizeController.deleteSize)
+    .put(authenticateBothTokens, sizeController.updateSize)
 
 module.exports = router;
