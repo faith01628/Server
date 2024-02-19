@@ -1,51 +1,47 @@
 const express = require('express');
 const router = express.Router();
-const sizeController = require('../controller/SizeController');
+const productController = require('../controller/ProductController');
 const { authenticateBothTokens } = require('../routers/authMiddleware');
 
 /**
  * @swagger
  * tags:
- *   - name: Size
- * /api/size:
+ *   - name: Product
+ * /api/product:
  *   get:
  *     tags:
- *       - Size
+ *       - Product
  *     responses:
  *       200:
- *         description: Successful response with size data.
+ *         description: Successful response with product data.
  *   post:
  *     tags:
- *       - Size
+ *       - Product
  *     parameters:
  *       - in: query
- *         name: sizeName
+ *         name: nameCategory
  *         schema:
  *           type: string
  *       - in: query
- *         name: idproduct
+ *         name: productName
  *         schema:
- *           type: int
- *       - in: query
- *         name: idclassify
- *         schema:
- *           type: int
+ *           type: string
  *     responses:
  *       201:
- *         description: Successful response with created size data.
+ *         description: Successful response with created product data.
  */
 router.route('/')
-    .get(authenticateBothTokens, sizeController.getSize)
-    .post(authenticateBothTokens, sizeController.createSize)
+    .get(authenticateBothTokens, productController.getProduct)
+    .post(authenticateBothTokens, productController.createProduct)
 
 /**
  * @swagger
  * tags:
- *   - name: Size
- * /api/size/{id}:
+ *   - name: Product
+ * /api/product/{id}:
  *   get:
  *     tags:
- *       - Size
+ *       - Product
  *     parameters:
  *       - in: path
  *         name: id
@@ -59,53 +55,48 @@ router.route('/')
  *         description: User not found.
  *   delete:
  *     tags:
- *       - Size
+ *       - Product
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID of the size to delete.
+ *         description: ID of the product to delete.
  *     responses:
  *       204:
- *         description: size deleted successfully.
+ *         description: product deleted successfully.
  *       404:
- *         description: size not found.
+ *         description: product not found.
  *   put:
  *     tags:
- *       - Size
+ *       - Product
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID of the size to update.
+ *         description: ID of the product to update.
  *       - in: query
- *         name: sizeName
+ *         name: nameCategory
  *         schema:
  *           type: string
  *       - in: query
- *         name: idproduct
+ *         name: productName
  *         schema:
- *           type: int
- *       - in: query
- *         name: idclassify
- *         schema:
- *           type: int
- *         description: The size of the product.
+ *           type: string
  *     responses:
  *       200:
- *         description: Successful response with updated size data.
+ *         description: Successful response with updated product data.
  *       404:
- *         description: size not found.
+ *         description: product not found.
  *       500:
  *         description: Internal Server Error.
  */
 router.route('/:id')
-    .get(authenticateBothTokens, sizeController.getSizeById)
-    .delete(authenticateBothTokens, sizeController.deleteSize)
-    .put(authenticateBothTokens, sizeController.updateSize)
+    .get(authenticateBothTokens, productController.getProductById)
+    .delete(authenticateBothTokens, productController.deleteProduct)
+    .put(authenticateBothTokens, productController.updateProduct)
 
 module.exports = router;

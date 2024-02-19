@@ -15,14 +15,14 @@ const getUserData = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        const { name, username, password, email, role, avata } = req.query;
+        const { name, username, password, email, idrole, avata } = req.query;
 
         // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const query = `
-            INSERT INTO "user" (name, username, password, email, role, avata)
-            VALUES ('${name}', '${username}', '${hashedPassword}', '${email}', '${role}', '${avata}')
+            INSERT INTO "user" (name, username, password, email, idrole, avata)
+            VALUES ('${name}', '${username}', '${hashedPassword}', '${email}', '${idrole}', '${avata}')
         `;
 
         await executeQuery(query);
@@ -83,7 +83,7 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const userId = req.params.id;
-        const { name, username, password, email, role, avata } = req.query;
+        const { name, username, password, email, idrole, avata } = req.query;
 
         const checkUserQuery = `SELECT * FROM "user" WHERE id = ${userId}`;
         const existingUser = await executeQuery(checkUserQuery);
@@ -96,14 +96,14 @@ const updateUser = async (req, res) => {
         const updateQuery = `
             UPDATE "user"
             SET name = '${name}', username = '${username}', password = '${hashedPassword}', 
-                email = '${email}', role = '${role}', avata = '${avata}'
+                email = '${email}', idrole = '${idrole}', avata = '${avata}'
             WHERE id = ${userId}
         `;
 
         const updateResult = await executeQuery(updateQuery, true);
 
         if (updateResult && updateResult.rowsAffected > 0) {
-            res.status(200).json({ message: 'User updated successfully', updatedUserId: userId, name: name, username: username, password: hashedPassword, email: email, role: role, avata: avata });
+            res.status(200).json({ message: 'User updated successfully', updatedUserId: userId, name: name, username: username, password: hashedPassword, email: email, idrole: idrole, avata: avata });
         } else {
             res.status(500).json({ error: 'Update was not successful', updatedUserId: userId });
         }

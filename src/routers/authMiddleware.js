@@ -25,7 +25,7 @@ const authenticateToken = (req, res, next) => {
 
 const authenticateAdminToken = (req, res, next) => {
     authenticateToken(req, res, () => {
-        if (req.user?.role === 'admin') {
+        if (req.user?.idRole === 2) {
             next();
         } else {
             return res.status(403).json({ error: 'Unauthorized' });
@@ -35,7 +35,7 @@ const authenticateAdminToken = (req, res, next) => {
 
 const authenticateBothTokens = (req, res, next) => {
     authenticateToken(req, res, () => {
-        if (req.user?.role === 'admin' || req.user?.role === 'user') {
+        if (req.user?.idRole === 2 || req.user?.idRole === 1) {
             next();
         } else {
             return res.status(403).json({ error: 'Unauthorized' });
@@ -45,7 +45,7 @@ const authenticateBothTokens = (req, res, next) => {
 
 const authenticateUserToken = (req, res, next) => {
     authenticateToken(req, res, () => {
-        if (req.user?.role === 'user') {
+        if (req.user?.idRole === 1) {
             next();
         } else {
             return res.status(403).json({ error: 'Unauthorized' });

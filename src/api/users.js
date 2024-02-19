@@ -38,9 +38,9 @@ const userController = require('../controller/UserController');
  *           type: string
  *         description: The email of the user.
  *       - in: query
- *         name: role
+ *         name: idrole
  *         schema:
- *           type: string
+ *           type: int
  *         description: The role of the user.
  *       - in: query
  *         name: avata
@@ -121,9 +121,9 @@ router.route('/')
  *           type: string
  *         description: The email of the user.
  *       - in: query
- *         name: role
+ *         name: idrole
  *         schema:
- *           type: string
+ *           type: int
  *         description: The role of the user.
  *       - in: query
  *         name: avata

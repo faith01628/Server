@@ -34,15 +34,10 @@ const { authenticateBothTokens } = require('../routers/authMiddleware');
  *           type: string
  *         description: The material of the classify.
  *       - in: query
- *         name: idParentTaxonomy
+ *         name: idproduct
  *         schema:
  *           type: int
- *         description: The idParentTaxonomy of the classify.
- *       - in: query
- *         name: idSize
- *         schema:
- *           type: int
- *         description: The idSize of the classify.
+ *         description: The idproduct of the classify.
  *     responses:
  *       201:
  *         description: Successful response with created classify data.
@@ -56,6 +51,20 @@ router.route('/')
  * tags:
  *   - name: Classify
  * /api/classify/{id}:
+ *   get:
+ *     tags:
+ *       - Classify
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Successful response with product data.
+ *       404:
+ *         description: User not found.
  *   delete:
  *     tags:
  *       - Classify
@@ -94,15 +103,10 @@ router.route('/')
  *           type: string
  *         description: The material of the classify.
  *       - in: query
- *         name: idParentTaxonomy
+ *         name: idproduct
  *         schema:
  *           type: int
- *         description: The idParentTaxonomy of the classify.
- *       - in: query
- *         name: idSize
- *         schema:
- *           type: int
- *         description: The idSize of the classify.
+ *         description: The idproduct of the classify.
  *     responses:
  *       200:
  *         description: Successful response with updated classify data.
@@ -112,6 +116,7 @@ router.route('/')
  *         description: Internal Server Error.
  */
 router.route('/:id')
+    .get(authenticateBothTokens, classifyController.getClassifyById)
     .delete(authenticateBothTokens, classifyController.deleteClassify)
     .put(authenticateBothTokens, classifyController.updateClassify)
 

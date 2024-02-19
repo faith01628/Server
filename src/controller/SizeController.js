@@ -14,11 +14,11 @@ const getSize = async (req, res) => {
 
 const createSize = async (req, res) => {
     try {
-        const { sizeName } = req.query;
+        const { sizeName, idproduct, idclassify } = req.query;
 
         const query = `
-            INSERT INTO "size" (sizeName)
-            VALUES ('${sizeName}')
+            INSERT INTO "size" (sizeName, idproduct, idclassify )
+            VALUES ('${sizeName}', '${idproduct}', '${idclassify}')
         `;
 
         await executeQuery(query);
@@ -31,6 +31,27 @@ const createSize = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
+const getSizeById = async (req, res) => {
+    try {
+        const sizeId = req.params.id;
+
+        const query = `
+            SELECT * FROM "size" WHERE id = ${sizeId}
+        `;
+
+        const sizeData = await executeQuery(query);
+
+        if (sizeData.length > 0) {
+            res.status(200).json(sizeData[0]);
+        } else {
+            res.status(404).json({ error: 'size not found' });
+        }
+    } catch (error) {
+        console.error('Error getting size by ID:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 
 const deleteSize = async (req, res) => {
@@ -59,7 +80,7 @@ const deleteSize = async (req, res) => {
 const updateSize = async (req, res) => {
     try {
         const sizeId = req.params.id;
-        const { sizeName } = req.query;
+        const { sizeName, idproduct, idclassify } = req.query;
 
         const checkSizerQuery = `SELECT * FROM "size" WHERE id = ${sizeId}`;
         const existingSize = await executeQuery(checkSizerQuery);
@@ -69,13 +90,13 @@ const updateSize = async (req, res) => {
         }
 
         const updateQuery = `
-            UPDATE "size" SET sizeName = '${sizeName}' WHERE id = ${sizeId}
+            UPDATE "size" SET sizeName = '${sizeName}', idproduct = '${idproduct}', idclassify = '${idclassify}' WHERE id = ${sizeId}
         `;
 
         const updateResult = await executeQuery(updateQuery, true);
 
         if (updateResult && updateResult.rowsAffected > 0) {
-            res.status(200).json({ message: 'size updated successfully', updatedSizeId: sizeId, size: size });
+            res.status(200).json({ message: 'size updated successfully', updatedSizeId: sizeId, sizeName: sizeName, idproduct: idproduct, idclassify: idclassify });
         } else {
             res.status(500).json({ error: 'Update was not successful', updatedSizeId: sizeId });
         }
@@ -87,5 +108,5 @@ const updateSize = async (req, res) => {
 };
 
 module.exports = {
-    getSize, createSize, deleteSize, updateSize,
+    getSize, createSize, deleteSize, updateSize, getSizeById
 };

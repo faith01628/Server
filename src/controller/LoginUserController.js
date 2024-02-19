@@ -8,7 +8,7 @@ const loginUser = async (req, res) => {
 
         const query = `
           SELECT * FROM "user"
-          WHERE username = '${username}' AND role = 'user'
+          WHERE username = '${username}' AND idRole = '1'
         `;
         const userData = await executeQuery(query);
 
@@ -39,7 +39,7 @@ const loginAdmin = async (req, res) => {
 
         const query = `
           SELECT * FROM "user"
-          WHERE username = '${username}' AND role = 'admin'
+          WHERE username = '${username}' AND idRole = '2'
         `;
         const userData = await executeQuery(query);
 
