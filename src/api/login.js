@@ -7,7 +7,7 @@ const LoginUserController = require('../controller/LoginUserController');
  * tags:
  *   - name: Login
  * /api/loginUser:
- *   get:
+ *   post:
  *     tags:
  *       - Login
  *     parameters:
@@ -35,7 +35,7 @@ const LoginUserController = require('../controller/LoginUserController');
  * tags:
  *   - name: Login
  * /api/loginAdmin:
- *   get:
+ *   post:
  *     tags:
  *       - Login
  *     parameters:
