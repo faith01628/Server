@@ -43,15 +43,15 @@ const getInExPortStorageById = async (req, res) => {
             SELECT * FROM "inExPortStorage" WHERE id = ${InExPortStorageId}
         `;
 
-        const InExPortStorageIdData = await executeQuery(query);
+        const InExPortStorageData = await executeQuery(query);
 
-        if (InExPortStorageIdData.length > 0) {
-            res.status(200).json(InExPortStorageIdData[0]);
+        if (InExPortStorageData.length > 0) {
+            res.status(200).json(InExPortStorageData[0]);
         } else {
-            res.status(404).json({ error: 'InExPortStorageIdData not found' });
+            res.status(404).json({ error: 'InExPortStorage not found' });
         }
     } catch (error) {
-        console.error('Error getting InExPortStorageIdData by ID:', error);
+        console.error('Error getting InExPortStorag by ID:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };

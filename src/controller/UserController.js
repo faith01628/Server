@@ -15,14 +15,18 @@ const getUserData = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        const { name, username, password, email, idrole, avata } = req.query;
+        const { name, username, password, email, idrole } = req.query;
+        const avataFilename = req.query.avata; // Tên file ảnh được gửi từ frontend
 
-        // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Đường dẫn đến thư mục uploads (cùng cấp với thư mục controller)
+        const avataPath = `../uploads/${avataFilename}`;
+
+        // Tiếp tục với việc thêm dữ liệu vào cơ sở dữ liệu
         const query = `
             INSERT INTO "user" (name, username, password, email, idrole, avata)
-            VALUES ('${name}', '${username}', '${hashedPassword}', '${email}', '${idrole}', '${avata}')
+            VALUES ('${name}', '${username}', '${hashedPassword}', '${email}', '${idrole}', '${avataPath}')
         `;
 
         await executeQuery(query);
@@ -35,6 +39,7 @@ const createUser = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 
 const getUserById = async (req, res) => {
     try {

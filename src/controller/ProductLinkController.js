@@ -7,7 +7,7 @@ const getProductLink = async (req, res) => {
 
         res.status(200).json(productlinkData);
     } catch (error) {
-        console.error('Error getting productlink data:', error);
+        console.error('Error getting product link data:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -24,10 +24,10 @@ const createProductLink = async (req, res) => {
         await executeQuery(query);
 
         res.status(201).json({
-            message: 'productlink created successfully',
+            message: 'product link created successfully',
         });
     } catch (error) {
-        console.error('Error creating productlink:', error);
+        console.error('Error creating product link:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
@@ -45,10 +45,10 @@ const getProductLinkById = async (req, res) => {
         if (productlinkData.length > 0) {
             res.status(200).json(productlinkData[0]);
         } else {
-            res.status(404).json({ error: 'productlink not found' });
+            res.status(404).json({ error: 'product link not found' });
         }
     } catch (error) {
-        console.error('Error getting productlink by ID:', error);
+        console.error('Error getting product link by ID:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -65,9 +65,9 @@ const deleteProductLink = async (req, res) => {
         const deleteproductlink = await executeQuery(deleteQuery, true);
 
         if (deleteproductlink && deleteproductlink.rowsAffected > 0) {
-            res.status(200).json({ message: 'Delete productlink successfully', deleteproductlinkId: productlinkId });
+            res.status(200).json({ message: 'Delete product link successfully', deleteproductlinkId: productlinkId });
         } else {
-            res.status(404).json({ error: 'productlink not found' });
+            res.status(404).json({ error: 'product link not found' });
         }
 
 
@@ -86,7 +86,7 @@ const updateProductLink = async (req, res) => {
         const existingProductLink = await executeQuery(checkProductLinkQuery);
 
         if (!existingProductLink || existingProductLink.length === 0) {
-            return res.status(404).json({ error: 'productlink not found' });
+            return res.status(404).json({ error: 'product link not found' });
         }
 
         const updateQuery = `
@@ -96,13 +96,13 @@ const updateProductLink = async (req, res) => {
         const updateResult = await executeQuery(updateQuery, true);
 
         if (updateResult && updateResult.rowsAffected > 0) {
-            res.status(200).json({ message: 'productlink updated successfully', updatedProductlinkId: productlinkId, idlink: idlink, idproduct: idproduct, idclassify: idclassify, idsize: idsize });
+            res.status(200).json({ message: 'product link updated successfully', updatedProductlinkId: productlinkId, idlink: idlink, idproduct: idproduct, idclassify: idclassify, idsize: idsize });
         } else {
             res.status(500).json({ error: 'Update was not successful', updatedProductlinkId: productlinkId });
         }
 
     } catch (error) {
-        console.error('Error updating productlink:', error);
+        console.error('Error updating product link:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };

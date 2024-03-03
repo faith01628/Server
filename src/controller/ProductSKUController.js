@@ -7,7 +7,7 @@ const getProductSKU = async (req, res) => {
 
         res.status(200).json(productSKUData);
     } catch (error) {
-        console.error('Error getting productSKUData data:', error);
+        console.error('Error getting product SKU data:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -24,10 +24,10 @@ const createProductSKU = async (req, res) => {
         await executeQuery(query);
 
         res.status(201).json({
-            message: 'productSKU created successfully',
+            message: 'product SKU created successfully',
         });
     } catch (error) {
-        console.error('Error creating productSKU:', error);
+        console.error('Error creating product SKU:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
@@ -45,10 +45,10 @@ const getProductSKUById = async (req, res) => {
         if (productSKUData.length > 0) {
             res.status(200).json(productSKUData[0]);
         } else {
-            res.status(404).json({ error: 'productSKU not found' });
+            res.status(404).json({ error: 'product SKU not found' });
         }
     } catch (error) {
-        console.error('Error getting productSKU by ID:', error);
+        console.error('Error getting product SKU by ID:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -67,12 +67,12 @@ const deleteProductSKU = async (req, res) => {
         if (deleteproductSKU && deleteproductSKU.rowsAffected > 0) {
             res.status(200).json({ message: 'Delete shop successfully', deleteproductSKUId: productSKUId });
         } else {
-            res.status(404).json({ error: 'productSKU not found' });
+            res.status(404).json({ error: 'product SKU not found' });
         }
 
 
     } catch (error) {
-        console.error('Error deleting productSKU:', error);
+        console.error('Error deleting product SKU:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -96,13 +96,13 @@ const updateProductSKU = async (req, res) => {
         const updateResult = await executeQuery(updateQuery, true);
 
         if (updateResult && updateResult.rowsAffected > 0) {
-            res.status(200).json({ message: 'productSKU updated successfully', updatedproductSKUId: productSKUId, idproduct: idproduct, idclassify: idclassify, idsize: idsize, idSKU: idSKU, });
+            res.status(200).json({ message: 'product SKU updated successfully', updatedproductSKUId: productSKUId, idproduct: idproduct, idclassify: idclassify, idsize: idsize, idSKU: idSKU, });
         } else {
             res.status(500).json({ error: 'Update was not successful', updatedproductSKUId: productSKUId });
         }
 
     } catch (error) {
-        console.error('Error updating productSKU:', error);
+        console.error('Error updating product SKU:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };

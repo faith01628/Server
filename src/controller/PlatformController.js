@@ -83,9 +83,9 @@ const updatePlatform = async (req, res) => {
         const { platform } = req.query;
 
         const checkplatformQuery = `SELECT * FROM "platform" WHERE id = ${platformId}`;
-        const existingplatform = await executeQuery(checkplatformQuery);
+        const existingPlatform = await executeQuery(checkplatformQuery);
 
-        if (!existingplatform || existingplatform.length === 0) {
+        if (!existingPlatform || existingPlatform.length === 0) {
             return res.status(404).json({ error: 'platform not found' });
         }
 

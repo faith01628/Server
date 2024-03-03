@@ -11,6 +11,15 @@ const Size = sql.define('size', {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+    },
+    idProduct: {
+        type: DataTypes.INTEGER, // Thay đổi từ STRING thành INTEGER nếu idProduct là khóa ngoại của bảng sản phẩm
+        allowNull: false,
+    },
+    idClassify: {
+        type: DataTypes.INTEGER, // Thay đổi từ STRING thành INTEGER nếu idClassify là khóa ngoại của bảng phân loại
+        allowNull: false,
     }
-})
-module.exports = Size
+});
+
+module.exports = Size;

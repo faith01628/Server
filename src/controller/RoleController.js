@@ -24,7 +24,7 @@ const createRole = async (req, res) => {
         await executeQuery(query);
 
         res.status(201).json({
-            message: 'User created successfully',
+            message: 'Role created successfully',
         });
     } catch (error) {
         console.error('Error creating role:', error);
@@ -41,12 +41,12 @@ const deleteRole = async (req, res) => {
             DELETE FROM "role" WHERE id = ${roleId}
         `;
 
-        const deleterole = await executeQuery(deleteQuery, true);
+        const deleteRole = await executeQuery(deleteQuery, true);
 
-        if (deleterole && deleterole.rowsAffected > 0) {
+        if (deleteRole && deleteRole.rowsAffected > 0) {
             res.status(200).json({ message: 'Delete role successfully', deleteroleId: roleId });
         } else {
-            res.status(404).json({ error: 'User not found' });
+            res.status(404).json({ error: 'Role not found' });
         }
 
 
@@ -61,8 +61,8 @@ const updateRole = async (req, res) => {
         const roleId = req.params.id;
         const { role } = req.query;
 
-        const checkRolerQuery = `SELECT * FROM "role" WHERE id = ${roleId}`;
-        const existingRole = await executeQuery(checkRolerQuery);
+        const checkRoleQuery = `SELECT * FROM "role" WHERE id = ${roleId}`;
+        const existingRole = await executeQuery(checkRoleQuery);
 
         if (!existingRole || existingRole.length === 0) {
             return res.status(404).json({ error: 'Role not found' });

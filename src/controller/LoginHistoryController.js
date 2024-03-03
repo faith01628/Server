@@ -14,7 +14,6 @@ const getLoginHistory = async (req, res) => {
 
 const getLoginHistoryById = async (req, res) => {
     try {
-        // Lấy idUser từ thông tin người dùng trong token JWT
         const idUser = req.user.id;
 
         const query = `

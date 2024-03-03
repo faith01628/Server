@@ -7,7 +7,7 @@ const getPrice = async (req, res) => {
 
         res.status(200).json(priceData);
     } catch (error) {
-        console.error('Error getting pice data:', error);
+        console.error('Error getting price data:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
@@ -72,7 +72,7 @@ const deletePrice = async (req, res) => {
 
 
     } catch (error) {
-        console.error('Error deleting size:', error);
+        console.error('Error deleting price:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };

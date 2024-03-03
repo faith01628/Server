@@ -62,9 +62,9 @@ const deleteProduct = async (req, res) => {
             DELETE FROM "product" WHERE id = ${productId}
         `;
 
-        const deleteproduct = await executeQuery(deleteQuery, true);
+        const deleteProduct = await executeQuery(deleteQuery, true);
 
-        if (deleteproduct && deleteproduct.rowsAffected > 0) {
+        if (deleteProduct && deleteProduct.rowsAffected > 0) {
             res.status(200).json({ message: 'Delete product successfully', deleteProducteId: productId });
         } else {
             res.status(404).json({ error: 'product not found' });

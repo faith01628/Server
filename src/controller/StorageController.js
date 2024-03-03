@@ -40,15 +40,15 @@ const getStorageById = async (req, res) => {
             SELECT * FROM "storage" WHERE id = ${storageId}
         `;
 
-        const storageIdData = await executeQuery(query);
+        const storageData = await executeQuery(query);
 
-        if (storageIdData.length > 0) {
-            res.status(200).json(storageIdData[0]);
+        if (storageData.length > 0) {
+            res.status(200).json(storageData[0]);
         } else {
-            res.status(404).json({ error: 'storageIdData not found' });
+            res.status(404).json({ error: 'storage not found' });
         }
     } catch (error) {
-        console.error('Error getting storageIdData by ID:', error);
+        console.error('Error getting storage by ID:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };

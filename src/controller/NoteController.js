@@ -62,9 +62,9 @@ const deleteNote = async (req, res) => {
             DELETE FROM "note" WHERE id = ${noteId}
         `;
 
-        const deletenote = await executeQuery(deleteQuery, true);
+        const deleteNote = await executeQuery(deleteQuery, true);
 
-        if (deletenote && deletenote.rowsAffected > 0) {
+        if (deleteNote && deleteNote.rowsAffected > 0) {
             res.status(200).json({ message: 'Delete note successfully', deletenoteId: noteId });
         } else {
             res.status(404).json({ error: 'note not found' });

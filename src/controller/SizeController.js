@@ -67,7 +67,7 @@ const deleteSize = async (req, res) => {
         if (deletesize && deletesize.rowsAffected > 0) {
             res.status(200).json({ message: 'Delete size successfully', deleteSizeId: sizeId });
         } else {
-            res.status(404).json({ error: 'User not found' });
+            res.status(404).json({ error: 'Size not found' });
         }
 
 
@@ -82,8 +82,8 @@ const updateSize = async (req, res) => {
         const sizeId = req.params.id;
         const { sizeName, idproduct, idclassify } = req.query;
 
-        const checkSizerQuery = `SELECT * FROM "size" WHERE id = ${sizeId}`;
-        const existingSize = await executeQuery(checkSizerQuery);
+        const checkSizeQuery = `SELECT * FROM "size" WHERE id = ${sizeId}`;
+        const existingSize = await executeQuery(checkSizeQuery);
 
         if (!existingSize || existingSize.length === 0) {
             return res.status(404).json({ error: 'size not found' });

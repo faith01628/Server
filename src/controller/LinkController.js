@@ -3,9 +3,9 @@ const { executeQuery } = require('../database');
 const getLink = async (req, res) => {
     try {
         const query = 'SELECT * FROM "link"';
-        const sizeData = await executeQuery(query);
+        const linkData = await executeQuery(query);
 
-        res.status(200).json(sizeData);
+        res.status(200).json(linkData);
     } catch (error) {
         console.error('Error getting link data:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -82,8 +82,8 @@ const updateLink = async (req, res) => {
         const linkId = req.params.id;
         const { link } = req.query;
 
-        const checkLinkrQuery = `SELECT * FROM "link" WHERE id = ${linkId}`;
-        const existingLink = await executeQuery(checkLinkrQuery);
+        const checkLinkQuery = `SELECT * FROM "link" WHERE id = ${linkId}`;
+        const existingLink = await executeQuery(checkLinkQuery);
 
         if (!existingLink || existingLink.length === 0) {
             return res.status(404).json({ error: 'link not found' });

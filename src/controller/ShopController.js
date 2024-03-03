@@ -7,7 +7,7 @@ const getShop = async (req, res) => {
 
         res.status(200).json(shopData);
     } catch (error) {
-        console.error('Error getting shopData data:', error);
+        console.error('Error getting shop data:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
